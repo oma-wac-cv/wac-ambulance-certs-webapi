@@ -18,6 +18,5 @@ type User struct {
 	// The user name
 	Name string `json:"name"`
 
-	// User's certification preview
-	Certifications []UserCertificationsInner `json:"certifications"`
+	Certifications []UserCertification `json:"certifications"`
 }

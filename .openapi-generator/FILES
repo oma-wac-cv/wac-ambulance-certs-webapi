@@ -3,5 +3,4 @@ internal/oma_wac_certs/api_ambulance_staff_certifications.go
 internal/oma_wac_certs/model_certification.go
 internal/oma_wac_certs/model_user.go
 internal/oma_wac_certs/model_user_certification.go
-internal/oma_wac_certs/model_user_certifications_inner.go
 internal/oma_wac_certs/routers.go

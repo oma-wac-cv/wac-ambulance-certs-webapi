@@ -12,6 +12,9 @@ package oma_wac_certs
 
 type UserCertification struct {
 
+	// The relation ID
+	Id string `json:"id,omitempty"`
+
 	// The user ID
 	UserId string `json:"user_id"`
 
