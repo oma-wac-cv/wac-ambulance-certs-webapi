@@ -1,0 +1,8 @@
+generatorName: go-gin-server
+templateDir: /local/scripts/templates
+outputDir: /local
+inputSpec: /local/api/oma_wac_certs.openapi.yaml
+enablePostProcessFile: true
+additionalProperties:
+  apiPath: internal/oma_wac_certs
+  packageName: oma_wac_certs

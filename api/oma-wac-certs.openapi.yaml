@@ -1,0 +1,276 @@
+openapi: 3.0.0
+servers:
+  - description: Cluster Endpoint
+    url: /api
+info:
+  description: Ambulance Waiting List API
+  version: "1.0.3"
+  title: Waiting List Api
+  contact:
+    email: xmartinkao@stuba.sk
+  license:
+    name: CC BY 4.0
+    url: "https://creativecommons.org/licenses/by/4.0/"
+tags:
+ - name: Ambulance Staff Certifications
+   description: Ambulance staff certifications API
+
+paths:
+  "/certifications":
+    get:
+      tags:
+        - Ambulance Staff Certifications
+      summary: Get all certifications
+      operationId: getCertifications
+      description: Retrieves a list of all available certifications
+      responses:
+        '200':
+          description: A list of certifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Certification'
+              examples:
+                response:
+                  $ref: '#/components/examples/CertificationListExample'
+             
+    post:
+      tags:
+        - Ambulance Staff Certifications
+      summary: Add a new certification
+      operationId: addCertification
+      description: Adds a new certification to the certificationl list
+      requestBody:
+        description: Certification to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Certification'
+      responses:
+        '200':
+          description: The added certification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certification'
+        '400':
+          description: Invalid certification
+
+  "/certifications/{certificationId}":
+    delete:
+      tags:
+        - Ambulance Staff Certifications
+      summary: Delete a certification
+      operationId: deleteCertification
+      description: Removes a certification from the certification list
+      parameters:
+        - name: certificationId
+          in: path
+          description: ID of the certification to delete
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Certification deleted
+        '404':
+          description: Certification not found
+
+  /users:
+    get:
+      tags:
+        - Ambulance Staff Certifications
+      summary: Get all users
+      description: Retrieves a list of all hospital doctors
+      operationId: getUsers
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+              examples:
+                response:
+                  $ref: '#/components/examples/UserListExample'
+
+  /users/{userId}:
+    put:
+      tags:
+        - Ambulance Staff Certifications
+      summary: Update a user
+      description: Update doctor's certifications
+      operationId: updateUser
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to update
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: User-certification to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCertification'
+      responses:
+        '200':
+          description: The updated user-certification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCertification'
+        '400':
+          description: Value of entryID in path and in data does not match
+        '404':
+          description: User not found
+
+components:
+  schemas:
+    Certification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The certification ID
+        name:
+          type: string
+          description: The certification name
+        description:
+          type: string
+          description: The certification description
+        authority:
+          type: string
+          description: The authority that issued the certification
+      required:
+        - name
+        - description
+        - authority
+
+    UserCertification:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: The user ID
+        certification_id:
+          type: string
+          format: uuid
+          description: The certification ID
+        expires_at:
+          type: string
+          format: date
+          description: The expiration date of the certification
+        issued_at:
+          type: string
+          format: date
+          description: The issue date of the certification
+      required:
+        - user_id
+        - certification_id
+        - expires_at
+        - issued_at
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The user ID
+        name:
+          type: string
+          description: The user name
+        certifications:
+          type: array
+          items:
+            type: object
+            properties:
+              certification_id:
+                type: string
+                format: uuid
+                description: The certification ID
+              expires_at:
+                type: string
+                format: date
+                description: The expiration date of the certification
+              issued_at:
+                type: string
+                format: date
+                description: The issue date of the certification
+            required:
+              - certification_id
+              - expires_at
+              - issued_at
+          description: "User's certification preview"
+      required:
+        - id
+        - name
+        - certifications
+
+
+  examples:
+    CertificationExample:
+      summary: EMT-Basic
+      description: Emergency Medical Technician - Basic
+      value:
+        id: 0e224f44-7854-4a55-b992-8a6ee3d2967b
+        name: "EMT-Basic"
+        description: "Emergency Medical Technician - Basic"
+        authority: "NREMT"
+    CertificationListExample:
+      summary: Certification List
+      description: Certification list example
+      value:
+        - id: 0e224f44-7854-4a55-b992-8a6ee3d2967b
+          name: "EMT-Basic"
+          description: "Emergency Medical Technician - Basic"
+          authority: "NREMT"
+        - id: 1e224f44-7854-4a55-b992-8a6ee3d2967b
+          name: "EMT-Intermediate"
+          description: "Emergency Medical Technician - Intermediate"
+          authority: "NREMT"
+        - id: 2e224f44-7854-4a55-b992-8a6ee3d2967b
+          name: "CISSP"
+          description: "Certified Information Systems Security Professional"
+          authority: "ISC2"
+    UserExample:
+      summary: John Doe
+      description: John Doe
+      value:
+        id: d31145ba-b5f2-4cf9-ba7f-7c47c9512fd4
+        name: "John Doe"
+        certifications:
+        - 0e224f44-7854-4a55-b992-8a6ee3d2967b
+        - 1e224f44-7854-4a55-b992-8a6ee3d2967b
+    UserListExample:
+      summary: User List
+      description: User list example
+      value:
+        - id: d31145ba-b5f2-4cf9-ba7f-7c47c9512fd4
+          name: "John Doe"
+          certifications:
+          - certification_id: 0e224f44-7854-4a55-b992-8a6ee3d2967b
+            expires_at: "2024-12-31"
+            issued_at: "2019-01-01"
+          - certification_id: 1e224f44-7854-4a55-b992-8a6ee3d2967b
+            expires_at: "2024-4-20"
+            issued_at: "2019-01-01"
+        - id: 3e3e3e3e-3e3e-3e3e-3e3e-3e3e3e3e3e3e
+          name: "Jane Doe"
+          certifications:
+          - certification_id: 2e224f44-7854-4a55-b992-8a6ee3d2967b
+            expires_at: "2022-12-31"
+            issued_at: "2019-01-01"
+
