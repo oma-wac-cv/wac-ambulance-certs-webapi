@@ -1,7 +1,7 @@
  apiVersion: v1
  kind: PersistentVolumeClaim
  metadata:
-   name: mongo-pvc-oma-certs
+   name: mongo-pvc
  spec:
    # storageClassName: default
    accessModes:

@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-   name: &PODNAME mongodb-oma-certs
+   name: &PODNAME mongodb
 spec:
    selector:
      pod: *PODNAME
