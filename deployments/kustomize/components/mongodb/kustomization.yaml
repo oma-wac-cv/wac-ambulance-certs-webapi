@@ -7,7 +7,7 @@ resources:
 - pvc.yaml
 
 configMapGenerator:
-- name: mongodb-connection
+- name: mongodb-connection-oma-certs
   options:
     disableNameSuffixHash: true
   literals:
@@ -15,7 +15,7 @@ configMapGenerator:
     - port=27017
 
 secretGenerator:
-- name: mongodb-auth
+- name: mongodb-auth-oma-certs
   options:
     disableNameSuffixHash: true
   literals:
