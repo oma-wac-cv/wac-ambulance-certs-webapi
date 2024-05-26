@@ -14,7 +14,7 @@ spec:
       spec:
         containers:
         - name: oma-ambulance-certs-webapi-container
-          image: slkd/ambulance-wl-webapi:latest
+          image: slkd/ambulance-certs-webapi:latest
           imagePullPolicy: Always
           ports:
           - name: webapi-port
