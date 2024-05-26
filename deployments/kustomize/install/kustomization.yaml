@@ -11,8 +11,8 @@ configMapGenerator:
       - params/init-db.js
   - name: oma-ambulance-certs-webapi-config
     literals:
-      - database=oma-ambulance-certs
-      - collection=ambulance-certs
+      - database=oma-ambulance
+      - collection=ambulance-certs # i need 2 and have them manually in the init db script 
 patches:
  - path: patches/webapi.deployment.yaml
    target:
